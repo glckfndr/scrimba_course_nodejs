@@ -8,9 +8,23 @@ const server = http.createServer(async (req, res) => {
 
   if (req.url === "/api" && req.method === "GET") {
     res.setHeader("Content-Type", "application/json");
+    res.statusCode = 200;
     res.end(JSON.stringify(destinations));
+  } else if (req.url.startsWith("/api/continent") && req.method === "GET") {
+    const continent = req.url.split("/").pop().toLowerCase();
+    const filteredData = destinations.filter(
+      (obj) => obj.continent.toLowerCase() === continent
+    );
+    res.setHeader("Content-Type", "application/json");
+    res.statusCode = 200;
+    if (filteredData.length != 0) {
+      res.end(JSON.stringify(filteredData));
+    } else {
+      res.end(JSON.stringify({ countries: [] }));
+    }
   } else {
-    res.writeHead(404, { "Content-Type": "application/json" });
+    res.setHeader("Content-Type", "application/json");
+    res.statusCode = 404;
     res.end(
       JSON.stringify({
         error: "not found",
@@ -19,5 +33,4 @@ const server = http.createServer(async (req, res) => {
     );
   }
 });
-
 server.listen(PORT, () => console.log(`Connected on port: ${PORT}`));
