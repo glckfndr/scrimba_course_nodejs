@@ -1,0 +1,16 @@
+{
+  "name": "wild-horizons",
+  "version": "1.0.0",
+  "description": "a dataset of the planet’s most interesting places",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "author": "glckfndr",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
