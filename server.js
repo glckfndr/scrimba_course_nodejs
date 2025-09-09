@@ -16,12 +16,20 @@ const server = http.createServer(async (req, res) => {
     );
 
     if (filteredData.length != 0) {
-      sendJSONResponse(res, 200, "application/json", filteredData);
+      sendJSONResponse(res, 200, filteredData);
     } else {
-      sendJSONResponse(res, 200, "application/json", { countries: [] });
+      sendJSONResponse(res, 200, { countries: [] });
     }
+  } else if (req.url.startsWith("/api/country") && req.method === "GET") {
+    const country = req.url.split("/").pop();
+
+    const filteredData = destinations.filter((destination) => {
+      return destination.country.toLowerCase() === country.toLowerCase();
+    });
+    console.log(filteredData);
+    sendJSONResponse(res, 200, filteredData);
   } else {
-    sendJSONResponse(res, 404, "application/json", {
+    sendJSONResponse(res, 404, {
       error: "not found",
       message: "The requested route does not exist",
     });
